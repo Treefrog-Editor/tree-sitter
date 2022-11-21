@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+web_dir=lib/binding_web
+
+if [ ! -d ${web_dir}/node_modules/terser ]; then
+  (
+    cd ${web_dir}
+    npm install
+  )
+fi
+${web_dir}/node_modules/.bin/terser   \
+  --compress                       \
+  --mangle                         \
+  --keep-classnames                \
+  -- $web_dir/tree-sitter.js \
+  > $web_dir/tree-sitter.min.js
