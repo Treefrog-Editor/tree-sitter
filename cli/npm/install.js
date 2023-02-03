@@ -31,7 +31,7 @@ if (!platformName || !archName) {
   process.exit(1);
 }
 
-const releaseURL = `https://github.com/tree-sitter/tree-sitter/releases/download/v${packageJSON.version}`;
+const releaseURL = `https://github.com/gushogg-blake/tree-sitter/releases/download/v${packageJSON.version}`;
 const assetName = `tree-sitter-${platformName}-${archName}.gz`;
 const assetURL = `${releaseURL}/${assetName}`;
 
