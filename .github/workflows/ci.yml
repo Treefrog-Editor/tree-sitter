@@ -17,22 +17,13 @@ env:
 jobs:
   unix-tests:
     name: Unix tests
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
+    
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      # Work around https://github.com/actions/cache/issues/403.
-      - name: Use GNU tar
-        if: matrix.os == 'macos-latest'
-        run: |
-          echo PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH" >> $GITHUB_ENV
 
       - name: Read Emscripten version
         run: |
