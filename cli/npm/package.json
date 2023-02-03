@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-cli",
+  "name": "@gushogg-blake/tree-sitter-cli",
   "version": "0.20.8",
   "author": "Max Brunsfeld",
   "license": "MIT",
