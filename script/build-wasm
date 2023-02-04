@@ -33,7 +33,7 @@ web_dir=lib/binding_web
 emscripten_flags="-O3"
 minify_js=1
 force_docker=0
-emscripen_version=$(cat "$(dirname "$0")"/../cli/emscripten-version)
+emscripten_version=$(cat "$(dirname "$0")"/../cli/emscripten-version)
 
 while [[ $# > 0 ]]; do
   case "$1" in
@@ -68,11 +68,11 @@ emcc=
 if which emcc > /dev/null && [[ "$force_docker" == "0" ]]; then
   emcc=emcc
 elif which docker > /dev/null; then
-  emcc="docker run                       \
-    --rm                                 \
-    -v $(pwd):/src:Z                     \
-    -u $(id -u)                          \
-    emscripten/emsdk:$emscripen_version  \
+  emcc="docker run \
+    --rm \
+    -v $(pwd):/src:Z \
+    -u $(id -u) \
+    emscripten/emsdk:$emscripten_version \
     emcc"
 else
   if [[ "$force_docker" == "1" ]]; then
@@ -89,29 +89,29 @@ runtime_methods='stringToUTF16','AsciiToString'
 
 # Use emscripten to generate `tree-sitter.js` and `tree-sitter.wasm`
 # in the `target/scratch` directory
-$emcc                                            \
-  -s WASM=1                                      \
-  -s INITIAL_MEMORY=33554432                     \
-  -s ALLOW_MEMORY_GROWTH=1                       \
-  -s MAIN_MODULE=2                               \
-  -s FILESYSTEM=0                                \
-  -s NODEJS_CATCH_EXIT=0                         \
-  -s NODEJS_CATCH_REJECTION=0                    \
+$emcc \
+  -s WASM=1 \
+  -s INITIAL_MEMORY=33554432 \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -s MAIN_MODULE=2 \
+  -s FILESYSTEM=0 \
+  -s NODEJS_CATCH_EXIT=0 \
+  -s NODEJS_CATCH_REJECTION=0 \
   -s EXPORTED_FUNCTIONS=@${web_dir}/exports.json \
-  -s EXPORTED_RUNTIME_METHODS=$runtime_methods   \
-  $emscripten_flags                              \
-  -fno-exceptions                                \
-  -std=c99                                       \
-  -D 'fprintf(...)='                             \
-  -D NDEBUG=                                     \
-  -I lib/src                                     \
-  -I lib/include                                 \
-  --js-library ${web_dir}/imports.js             \
-  --pre-js ${web_dir}/prefix.js                  \
-  --post-js ${web_dir}/binding.js                \
-  --post-js ${web_dir}/suffix.js                 \
-  lib/src/lib.c                                  \
-  ${web_dir}/binding.c                           \
+  -s EXPORTED_RUNTIME_METHODS=$runtime_methods \
+  $emscripten_flags \
+  -fno-exceptions \
+  -std=c99 \
+  -D 'fprintf(...)=' \
+  -D NDEBUG= \
+  -I lib/src \
+  -I lib/include \
+  --js-library ${web_dir}/imports.js \
+  --pre-js ${web_dir}/prefix.js \
+  --post-js ${web_dir}/binding.js \
+  --post-js ${web_dir}/suffix.js \
+  lib/src/lib.c \
+  ${web_dir}/binding.c \
   -o target/scratch/tree-sitter.js
 
 # Use terser to write a minified version of `tree-sitter.js` into
@@ -123,10 +123,10 @@ if [[ "$minify_js" == "1" ]]; then
       npm install
     )
   fi
-  ${web_dir}/node_modules/.bin/terser   \
-    --compress                       \
-    --mangle                         \
-    --keep-classnames                \
+  ${web_dir}/node_modules/.bin/terser \
+    --compress \
+    --mangle \
+    --keep-classnames \
     -- target/scratch/tree-sitter.js \
     > $web_dir/tree-sitter.js
 else
