@@ -50,8 +50,8 @@ while [[ $# > 0 ]]; do
 			force_docker=1
 			;;
 		
-		--static
-			static_link_paths="$HOME/projects/edita/vendor/public/langs/tree-sitter-*.wasm"
+		--static)
+			static_link_paths="$(find $HOME/projects/edita/vendor/public/tree-sitter/langs -name "tree-sitter-*.wasm")"
 			;;
 
 		*)
