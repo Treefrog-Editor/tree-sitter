@@ -5,6 +5,7 @@ use std::ffi::{OsStr, OsString};
 use std::fs;
 use std::path::Path;
 use std::process::Command;
+use std::println;
 use which::which;
 
 const EMSCRIPTEN_TAG: &'static str = concat!("emscripten/emsdk:", env!("EMSCRIPTEN_VERSION"));
@@ -116,6 +117,8 @@ pub fn compile_language_to_wasm(language_dir: &Path, force_docker: bool) -> Resu
     }
 
     command.arg(parser_c_path.to_slash_lossy().as_ref());
+    
+    println!("{:?}", command);
 
     let output = command
         .output()
