@@ -1,5 +1,4 @@
 /tree-sitter.js
-/tree-sitter-static.js
 /tree-sitter.wasm
 package-lock.json
 node_modules
