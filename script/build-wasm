@@ -92,6 +92,8 @@ mkdir -p target/scratch
 
 runtime_methods='stringToUTF16','AsciiToString'
 
+$emcc -v
+
 # Use emscripten to generate `tree-sitter.js` and `tree-sitter.wasm`
 # in the `target/scratch` directory
 $emcc \
