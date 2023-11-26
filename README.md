@@ -1,7 +1,7 @@
-This fork has the following changes for [Edita](//edita.vercel.app):
+This is the fork used by [Edita](//edita.vercel.app). The main changes are:
 
-- fix environment detection in lib/binding_web/binding.js
+- Fixes for using Wasm binaries in Electron
 
-- statically link langs that use libraries that aren't in exports.json (see https://github.com/tree-sitter/tree-sitter/issues/949), and update `Language.load` to get them from the main module, as emscripten requests the wasm files and merges them into the main module on startup
+- Static linking for languages that use extra libraries in custom scanners, which otherwise fail with Wasm errors when loaded dynamically.
 
-See https://gitlab.com/gushogg-blake/edita-release/-/blob/main/howto/tree-sitter.md for more details.
+To enable static linking, configure the paths in scripts/build-wasm and pass the `--static` option when building. See https://github.com/tree-sitter/tree-sitter/issues/949 for more details.
