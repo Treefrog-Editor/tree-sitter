@@ -55,6 +55,7 @@ while [[ $# > 0 ]]; do
 				find $HOME/projects/edita/vendor/public/tree-sitter/langs \
 				-name "tree-sitter-ruby.wasm" \
 				-o -name "tree-sitter-svelte.wasm" \
+				-o -name "tree-sitter-markdown.wasm" \
 			)"
 			;;
 
