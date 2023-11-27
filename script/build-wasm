@@ -70,34 +70,23 @@ done
 
 echo $static_link_paths
 
-emcc=""
-docker=""
+emcc=
 if which emcc > /dev/null && [[ "$force_docker" == "0" ]]; then
 	emcc=emcc
 elif which docker > /dev/null; then
-  # detect which one to use
-  docker=docker
-elif which podman > /dev/null; then
-  docker=podman
-fi
-
-if [ -z "$emcc" ] && [ -n "$docker" ]; then
-  export PODMAN_USERNS=keep-id
-  emcc="$docker run                      \
-    --rm                                 \
-    -v $(pwd):/src:Z                     \
-    -u $(id -u)                          \
-    emscripten/emsdk:$emscripen_version  \
-    emcc"
-fi
-
-if [ -z "$emcc" ]; then
-  if [[ "$force_docker" == "1" ]]; then
-    echo 'You must have `docker` or `podman` on your PATH to run this script with --docker'
-  else
-    echo 'You must have either `docker`, `podman`, or `emcc` on your PATH to run this script'
-  fi
-  exit 1
+	emcc="docker run \
+		--rm \
+		-v $(pwd):/src:Z \
+		-u $(id -u) \
+		emscripten/emsdk:$emscripten_version \
+		emcc"
+else
+	if [[ "$force_docker" == "1" ]]; then
+		echo 'You must have `docker` on your PATH to run this script with --docker'
+	else
+		echo 'You must have either `docker` or `emcc` on your PATH to run this script'
+	fi
+	exit 1
 fi
 
 mkdir -p target/scratch
